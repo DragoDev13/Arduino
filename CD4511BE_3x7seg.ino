@@ -5,17 +5,6 @@ int BD4 = 10;
 int katodaCifraJedan = 4;
 int katodaCifraDva = 7;
 int katodaCifraTri = 8;
-/*
- katode: 11, 8, 7
- dole levo 1
- dole srednje 2
- tacka 3
- dole desno 4
- srednja 5
- gornja levo 9
- gornja desno 7 
- gornja srednja 10
- */
 void setup() {
   pinMode(BD1, OUTPUT);
   pinMode(BD2, OUTPUT);
