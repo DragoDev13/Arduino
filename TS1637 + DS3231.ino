@@ -1,22 +1,33 @@
+#include <elapsedMillis.h>
+#define BOUNCE_LOCK_OUT
+#include <Bounce2.h>
 #include <DS3231.h>
-#include <Arduino.h>
 #include <TM1637Display.h>
+
 #define CLK 13
 #define DIO 12
 #define SDA 10
 #define SCL 11
+#define DUGME 8
+
 DS3231 rtc(SDA, SCL);
 TM1637Display display(CLK, DIO);
+Bounce dugme = Bounce();
+
+int stanjeDugmeta = 0;
+
 void ciscenjeEkrana(){
   uint8_t data[] = {0x0, 0x0, 0x0, 0x0};
   display.setSegments(data);  
 }
+
 void stavljanjeVremenaNaDS(){
   rtc.setDOW(THURSDAY); 
-  rtc.setTime(9, 41, 20);    // sat, minut, sekunda
-  rtc.setDate(3, 10, 2019);  // dan, mesec, godina
+  rtc.setTime(15, 56, 0);    // sat, minut, sekunda
+  rtc.setDate(27, 10, 2019);  // dan, mesec, godina
   
 }
+
 void kopiranjeStringa(char* string, char* original){
   while(*original!='\0'){
       *string = *original;
@@ -25,6 +36,7 @@ void kopiranjeStringa(char* string, char* original){
     }  
    *string = '\0';
 }
+
 void datumIzStringa(char* datum, int* dan, int* mesec, int* godina){
   char* pomocni;
   pomocni = datum;
@@ -52,7 +64,7 @@ void ispisMinutaISekundi(int minuta,int sekunda){
 void ispisDatuma(int godina, int mesec, int dan){
   
   display.showNumberDec(godina, false, 4, 0);
-  delay(2000);
+  delaySaCitanjemDugmeta(500);
   if(mesec<10){
       display.showNumberDec(0, false, 1, 0);
       display.showNumberDec(mesec, false, 1, 1);
@@ -61,14 +73,32 @@ void ispisDatuma(int godina, int mesec, int dan){
       display.showNumberDec(0, false, 1, 2);
       display.showNumberDec(dan, false ,1, 3);
     }else display.showNumberDec(dan, false, 2, 2);
-    delay(2000);
+    delaySaCitanjemDugmeta(500);
+    
 }
+
+void menjanjeStanjaDugmeta(){
+  if(dugme.fell() && stanjeDugmeta ==0)stanjeDugmeta = 1;
+  else if(dugme.fell() && stanjeDugmeta == 1)stanjeDugmeta = 0;
+}
+
+void delaySaCitanjemDugmeta(int ddelay){
+  elapsedMillis elapsed;
+  while(elapsed<ddelay){
+     dugme.update();
+     menjanjeStanjaDugmeta();
+    }     
+}
+
 void setup(){
+  pinMode(DUGME, INPUT_PULLUP);
+  dugme.attach(DUGME);
+  dugme.interval(5);
   rtc.begin();
   ciscenjeEkrana();
   display.setBrightness(7);
   Serial.begin(9600);
-  //stavljanjeVremenaNaDS();
+  stavljanjeVremenaNaDS();
  }
 
 void loop(){
@@ -85,8 +115,9 @@ void loop(){
   kopiranjeStringa(vreme, rtc.getTimeStr());
   datumIzStringa(datum, &dan, &mesec, &godina);
   vremeIzStringa(vreme, &sat, &minut, &sekunda);
-  ispisMinutaISekundi(minut, sekunda);
-  //ispisDatuma(godina, mesec, dan);
-  Serial.println("Pisanje na displej");
+  dugme.update();
+  menjanjeStanjaDugmeta();
+  if(stanjeDugmeta==0)ispisMinutaISekundi(minut, sekunda);
+  else ispisDatuma(godina, mesec, dan);
   Serial.println("-----------------------");
 }
