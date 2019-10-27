@@ -98,7 +98,7 @@ void setup(){
   ciscenjeEkrana();
   display.setBrightness(7);
   Serial.begin(9600);
-  stavljanjeVremenaNaDS();
+  //stavljanjeVremenaNaDS();
  }
 
 void loop(){
