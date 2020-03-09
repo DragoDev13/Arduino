@@ -6,4 +6,5 @@ CD4511BE__7seg - koriscenje dekodera za rad sa sedmo seg sdisplejom <br />
 2LedDioda + 2ShiftRegistra - koriscenje dva povezana sift regitra za binarno prikazivanje brojeva na diodama<br />
 SOS - prikazivanje sos na 3seg displeju sa buzzerom i dva potenciometra <br />
 Riziko-tajmer_update - riziko sa LCD shield sa interupt tajmerima mesto delaya <br />
+LCD_I2C+RFID - koriscenje lcd displeja sa i2c za prikaz informacija sa RFID kartice<br />
 ###########################################################################################<br />
