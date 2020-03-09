@@ -70,7 +70,7 @@ void ocistiDisplej(){
   for(int i=0;i<20;i++)lcd.print(" ");    
 }
 int odradjeno=0;
-void pisanjePodatakPICC(){
+void pisanjePodatakaPICC(){
   char vrednost[16]= "";
   strcpy(vrednost, "nekoime");
   writeBlock(4, vrednost);
