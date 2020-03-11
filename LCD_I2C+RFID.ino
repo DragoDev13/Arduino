@@ -69,6 +69,7 @@ void ocistiDisplej(){
   lcd.setCursor(0,3);
   for(int i=0;i<20;i++)lcd.print(" ");    
 }
+//koristi promeniljiva odradjeno i funkcija pisanjePodatakaPICC se koriste za pisanje podatak na PICC
 int odradjeno=0;
 void pisanjePodatakaPICC(){
   char vrednost[16]= "";
@@ -86,8 +87,6 @@ void setup() {
   mfrc522.PCD_Init(); 
   lcd.begin();
   lcd.backlight();
-  SPI.begin();
-  mfrc522.PCD_Init();
   for (byte i = 0; i < 6; i++) {
        key.keyByte[i] = 0xFF;
   }
