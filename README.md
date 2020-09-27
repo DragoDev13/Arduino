@@ -10,4 +10,7 @@ LCD_I2C+RFID - koriscenje lcd displeja sa i2c za prikaz informacija sa RFID kart
 DS3231_ALARM+TM1637 - isto sto i TM1637 + DS3231 samo se koristi i alarm !!!<br />
 I2C_DS3231+LCD20x4 - displej i ds komuniciraju preko istih zica sa arduinom<br />
 QYF-TM163_MAX7219 - rad shield i dot matrix preko istih zica za SPI
+OLED_BitmapSlika - OLED display prikazuje sliku u formatu bitmape<br />
+OLED_CrtanjeOblika - Iscrtavanje geometrijskih oblika na OLED displayu<br />
+OLED_Scrolling - Tekst koji se scrolluje i menja smer i velicina tekst dugmetom<br />
 ###########################################################################################<br />
